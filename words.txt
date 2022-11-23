@@ -254,7 +254,6 @@ Judge
 Laugh
 Learn
 Leave
-Let’s
 Limit
 Marry
 Match
@@ -482,7 +481,6 @@ Hence
 Hotly
 Icily
 Infra
-Intl.
 Jildi
 Jolly
 Laxly
@@ -526,10 +524,8 @@ Since
 Sleek
 Slyly
 Small
-So-So
 Sound
 Spang
-Srsly
 Stark
 Still
 Stone
@@ -541,14 +537,11 @@ There
 Thick
 Tight
 Today
-Tomoz
 Truly
 Twice
 Under
 Utter
-Verry
 Wanly
 Wetly
 Where
 Wrong
-Wryly
