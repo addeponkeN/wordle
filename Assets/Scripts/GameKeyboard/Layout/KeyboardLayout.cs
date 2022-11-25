@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameKeyboard.Layout
@@ -6,7 +7,7 @@ namespace GameKeyboard.Layout
     [Serializable]
     public class KeyboardLayout
     {
-        [SerializeField] public KeyboardLayoutRow[] Row;
+        [SerializeField] public List<KeyboardButton> Buttons;
     }
 
 }

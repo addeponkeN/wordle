@@ -26,19 +26,14 @@ namespace GameKeyboard.Layout
 
         public KeyboardLayout Generate()
         {
-            const int rowLength = 3;
 
             var layout = new KeyboardLayout();
-            layout.Row = new KeyboardLayoutRow[rowLength];
+            layout.Buttons = new List<KeyboardButton>();
 
-            for(int i = 0; i < rowLength; i++)
+            for(int i = 0; i < _rows.Length; i++)
             {
                 var rowData = _rows[i];
-
-                var layoutRow = new KeyboardLayoutRow();
-                layoutRow.Keys = rowData.ToArray();
-
-                layout.Row[i] = layoutRow;
+                //layout.Buttons[i] =;
             }
 
             return layout;

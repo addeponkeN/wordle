@@ -1,4 +1,3 @@
-
 using Util;
 
 public class WordGenerator
