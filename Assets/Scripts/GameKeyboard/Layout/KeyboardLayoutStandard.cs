@@ -23,17 +23,19 @@ namespace GameKeyboard.Layout
             }
         };
 
-
         public KeyboardLayout Generate()
         {
-
             var layout = new KeyboardLayout();
-            layout.Buttons = new List<KeyboardButton>();
+            // layout.Buttons = new List<KeyboardButton>();
 
             for(int i = 0; i < _rows.Length; i++)
             {
-                var rowData = _rows[i];
-                //layout.Buttons[i] =;
+                var row = _rows[i];
+                for(int j = 0; j < row.Count; j++)
+                {
+                    var key = row[i];
+                }
+                
             }
 
             return layout;

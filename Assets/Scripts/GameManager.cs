@@ -1,24 +1,23 @@
+using System.Linq;
 using GameKeyboard;
-using GameKeyboard.Layout;
 using UnityEngine;
+using Grid = WordGrid.Grid;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Keyboard keyboard;
+    [SerializeField] private Keyboard _keyboard;
 
     private Grid _grid;
 
     private void Start()
     {
-        var layout = new KeyboardLayoutStandard();
-        keyboard.ApplyLayout(layout);
-
-        _grid = new Grid();
+        _keyboard.ButtonClickedEvent.AddListener(Keyboard_OnButtonClickedEvent);
     }
 
-    private void Update()
+    private void Keyboard_OnButtonClickedEvent(KeyboardButton bt)
     {
-        
+        var character = bt.Key.ToString().First();
+        _grid.AppendChar(character);
     }
     
 }

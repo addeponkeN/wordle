@@ -5,9 +5,18 @@ using UnityEngine;
 namespace GameKeyboard.Layout
 {
     [Serializable]
-    public class KeyboardLayout
+    [CreateAssetMenu(
+        fileName = "KeyboardLayout",
+        menuName = "Virtual Keyboard Layout",
+        order = 0)]
+    public class KeyboardLayout : ScriptableObject
     {
-        [SerializeField] public List<KeyboardButton> Buttons;
+        [SerializeField] public List<KeyboardLayoutRow> Rows;
     }
 
+    [Serializable]
+    public class KeyboardLayoutRow
+    {
+        [SerializeField] public List<KeyboardLayoutButton> Buttons;
+    }
 }
