@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameKeyboard.Layout
+namespace VirtualKeyboard.Layout
 {
     [Serializable]
     [CreateAssetMenu(
@@ -14,9 +14,5 @@ namespace GameKeyboard.Layout
         [SerializeField] public List<KeyboardLayoutRow> Rows;
     }
 
-    [Serializable]
-    public class KeyboardLayoutRow
-    {
-        [SerializeField] public List<KeyboardLayoutButton> Buttons;
-    }
+
 }

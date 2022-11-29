@@ -1,13 +1,18 @@
-using System.Linq;
-using GameKeyboard;
 using UnityEngine;
-using Grid = WordGrid.Grid;
+using VirtualKeyboard;
+using WordGridSystem;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Keyboard _keyboard;
+    [SerializeField] private WordGrid _wordGrid;
+    
+    private WordGridInputHandler _inputHandler;
 
-    private Grid _grid;
+    private void Awake()
+    {
+        _inputHandler = new WordGridInputHandler(_wordGrid);
+    }
 
     private void Start()
     {
@@ -16,8 +21,8 @@ public class GameManager : MonoBehaviour
 
     private void Keyboard_OnButtonClickedEvent(KeyboardButton bt)
     {
-        var character = bt.Key.ToString().First();
-        _grid.AppendChar(character);
+        Debug.Log($"clicked button: {bt.Key}");
+        _inputHandler.HandleInput(bt.Key);
     }
-    
+
 }

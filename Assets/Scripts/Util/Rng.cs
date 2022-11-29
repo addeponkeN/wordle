@@ -6,7 +6,6 @@ namespace Util
     {
         private static Random _rnd = new();
 
-
         public static int Next(int maxIncluded) => _rnd.Next(maxIncluded + 1);
     }
 }

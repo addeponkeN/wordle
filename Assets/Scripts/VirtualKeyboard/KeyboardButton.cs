@@ -2,15 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameKeyboard
+namespace VirtualKeyboard
 {
     public class KeyboardButton : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _text;
-        [SerializeField] private Button _button;
 
-        internal Button.ButtonClickedEvent ClickedEvent => _button.onClick;
-        
         public Vector2Int Position
         {
             get
@@ -19,11 +15,10 @@ namespace GameKeyboard
                 return new Vector2Int((int)pos.x, (int)pos.y);
             }
         }
-        
-        private KeyCode _key;
+
         public KeyCode Key
         {
-            get => _key; 
+            get => _key;
             set
             {
                 _key = value;
@@ -34,15 +29,24 @@ namespace GameKeyboard
             }
         }
 
+        public Button Button => _button;
+        
+        internal Button.ButtonClickedEvent ClickedEvent => _button.onClick;
+
+        [SerializeField] private TMP_Text _text;
+        [SerializeField] private Button _button;
+        private KeyCode _key;
+        
         public override string ToString()
         {
-            return _key.ToString();
+            return _text.text;
         }
 
-        public void SetKey(KeyCode key)
+        public void SetKey(KeyCode key, string keyName)
         {
             Key = key;
-            _text.text = ToString();
+            _text.text = string.IsNullOrEmpty(keyName) ? ToString() : keyName;
         }
+        
     }
 }

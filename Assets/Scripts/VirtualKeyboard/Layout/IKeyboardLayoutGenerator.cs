@@ -1,4 +1,4 @@
-namespace GameKeyboard.Layout
+namespace VirtualKeyboard.Layout
 {
     public interface IKeyboardLayoutGenerator
     {

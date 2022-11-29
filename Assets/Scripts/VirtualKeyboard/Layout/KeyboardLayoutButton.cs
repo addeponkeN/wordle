@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
-namespace GameKeyboard.Layout
+namespace VirtualKeyboard.Layout
 {
     [Serializable]
     public struct KeyboardLayoutButton
     {
         public KeyCode Key;
+        public GameObject Prefab;
     }
 }
