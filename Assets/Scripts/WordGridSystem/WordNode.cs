@@ -12,6 +12,7 @@ namespace WordGridSystem
             {
                 case NodeStatus.Yellow: return Color.yellow;
                 case NodeStatus.Green: return Color.green;
+                case NodeStatus.Dark: return Color.gray;
             }
             return Color.white;
         }
@@ -36,6 +37,7 @@ namespace WordGridSystem
 
         public void Clear()
         {
+            SetColor(Color.white);
             SetCharacter(' ');
         }
 

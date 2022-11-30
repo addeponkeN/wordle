@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,12 +9,11 @@ namespace VirtualKeyboard
 {
     public class Keyboard : MonoBehaviour
     {
+        //  Inspector layout
+        
         [Space(5)]
         
         [SF] private GameObject _prefabButtonDefault;
-        // [SF] private GameObject _prefabButtonEnter;
-        // [SF] private GameObject _prefabButtonBack;
-        
         [SF] private GameObject _buttonsContainer;
 
         [Space(5)]
@@ -24,6 +24,19 @@ namespace VirtualKeyboard
         [Space(20)]
         
         public UnityEvent<KeyboardButton> ButtonClickedEvent;
+        
+        //  -----
+
+        //  Fields & Properties
+
+        public List<KeyboardButton> Buttons => _buttons;
+
+        private List<KeyboardButton> _buttons;
+
+        private void Awake()
+        {
+            _buttons = new();
+        }
 
         private void Start()
         {
@@ -38,6 +51,8 @@ namespace VirtualKeyboard
         
         private void ApplyLayout()
         {
+            _buttons.Clear();
+            
             var keyboardPosition = transform.position;
             var sharedButtonHeight = _prefabButtonDefault.GetComponent<RectTransform>().rect.height;
             
@@ -75,6 +90,7 @@ namespace VirtualKeyboard
             var objButton = Instantiate(prefab, new Vector3(position.x, position.y), Quaternion.identity, tf);
             
             var button = objButton.GetComponent<KeyboardButton>();
+            _buttons.Add(button);
 
             var prefabKeyName = prefab.GetComponentInChildren<TMP_Text>();
             
@@ -83,6 +99,7 @@ namespace VirtualKeyboard
             objButton.name = $"Button {button}";
             
             button.ClickedEvent.AddListener(() => OnButtonClicked(button));
+            
 
             return objButton;
         }

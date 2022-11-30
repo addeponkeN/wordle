@@ -1,15 +1,18 @@
 using System.Linq;
 using UnityEngine;
+using VirtualKeyboard;
 
 namespace WordGridSystem
 {
     public class WordGridInputHandler
     {
         private WordGrid _grid;
+        private Keyboard _keyboard;
 
-        public WordGridInputHandler(WordGrid grid)
+        public WordGridInputHandler(WordGrid grid, Keyboard kb)
         {
             _grid = grid;
+            _keyboard = kb;
         }
 
         public void HandleInput(KeyCode key)
@@ -25,6 +28,7 @@ namespace WordGridSystem
                 case KeyCode.Return:
                 {
                     _grid.TrySolve();
+                    
                     break;
                 }
 

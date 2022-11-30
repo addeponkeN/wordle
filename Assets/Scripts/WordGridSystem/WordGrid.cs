@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using Util;
@@ -9,6 +10,7 @@ namespace WordGridSystem
         None,
         Yellow,
         Green,
+        Dark,
     }
 
     public class WordGrid : MonoBehaviour
@@ -16,25 +18,21 @@ namespace WordGridSystem
         private static readonly int MaxRows = 5;
         private static readonly int MaxColumns = 5;
 
-        private static readonly string[] WordsDatabase = new[]
-        {
-            "hello",
-            "dance",
-            "house",
-            "cover",
-        };
+        public bool IsSolved;
+        public string CurrentWord => _currentWord;
+        public bool ReachedEnd => _currentColumnIndex >= MaxRows;
+
+        private Row CurrentRow => _rows[_currentRowIndex];
+        private WordNode CurrentNode => CurrentRow[_currentColumnIndex];
 
         [SerializeField] private GameObject _prefabWordNode;
         [SerializeField] private float _spacing = 4;
 
         private Row[] _rows;
-
+        private string[] _words;
         private int _currentRowIndex;
         private int _currentColumnIndex;
         private string _currentWord;
-
-        private Row CurrentRow => _rows[_currentRowIndex];
-        private WordNode CurrentNode => CurrentRow[_currentColumnIndex];
 
         private void Awake()
         {
@@ -60,22 +58,37 @@ namespace WordGridSystem
                         j * _spacing + j * nodeRect.width,
                         i * -_spacing + i * -nodeRect.height);
 
-                    var  nodeObject = Instantiate(_prefabWordNode, nodePosition, Quaternion.identity, wordRowObject.transform);
+                    var nodeObject = Instantiate(_prefabWordNode, nodePosition, Quaternion.identity,
+                        wordRowObject.transform);
                     var wordNode = nodeObject.GetComponent<WordNode>();
                     row[j] = wordNode;
                 }
             }
+        }
 
-            NextRound();
+        private void SetRandomWord()
+        {
+            _currentWord = _words.Random();
+        }
+
+        private void ResetGrid()
+        {
+            for(int i = 0; i < _rows.Length; i++)
+            {
+                _rows[i].Clear();
+            }
         }
 
         public void NextRound()
         {
-            _currentWord = WordsDatabase.Random();
+            ResetGrid();
+            IsSolved = false;
             _currentRowIndex = 0;
             _currentColumnIndex = 0;
+            
+            SetRandomWord();
 
-            Debug.Log($"current word: {_currentWord}");
+            Debug.Log($"new round - current word: {_currentWord}");
         }
 
         public void AppendChar(char @char)
@@ -97,9 +110,9 @@ namespace WordGridSystem
                 return;
             }
 
-            CurrentNode.Clear();
-
             _currentColumnIndex--;
+
+            CurrentNode.Clear();
         }
 
         public bool TrySolve()
@@ -120,11 +133,14 @@ namespace WordGridSystem
         private void NextRow()
         {
             _currentRowIndex++;
+            _currentColumnIndex = 0;
         }
 
         private void Solve()
         {
             var row = _rows[_currentRowIndex];
+
+            int correctCharacterCount = 0;
 
             for(int i = 0; i < MaxColumns; i++)
             {
@@ -135,12 +151,19 @@ namespace WordGridSystem
                 if(IsCharacterCorrect(i, character))
                 {
                     node.SetStatus(NodeStatus.Green);
+                    correctCharacterCount++;
                 }
-                else if(WordContainsCharacter(character))
+                else if(IsCharacterInWord(character))
                 {
                     node.SetStatus(NodeStatus.Yellow);
                 }
+                else
+                {
+                    node.SetStatus(NodeStatus.Dark);
+                }
             }
+
+            IsSolved = correctCharacterCount >= MaxColumns;
         }
 
         private bool IsCharacterCorrect(int index, char character)
@@ -148,9 +171,14 @@ namespace WordGridSystem
             return _currentWord[index].Equals(character);
         }
 
-        private bool WordContainsCharacter(char character)
+        private bool IsCharacterInWord(char character)
         {
             return _currentWord.Contains(character);
+        }
+
+        public void SetWords(string[] word)
+        {
+            _words = word;
         }
     }
 }
