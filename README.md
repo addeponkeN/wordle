@@ -1,4 +1,4 @@
 # wordle
 Wordle assignment
 
-## Web build: https://github.com/addeponkeN/wordle-web
+### WebGL: https://addeponken.github.io/wordle-web/
