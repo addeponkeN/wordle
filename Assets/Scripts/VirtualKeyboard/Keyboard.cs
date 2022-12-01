@@ -27,15 +27,30 @@ namespace VirtualKeyboard
         
         //  -----
 
+        
         //  Fields & Properties
 
         public List<KeyboardButton> Buttons => _buttons;
 
         private List<KeyboardButton> _buttons;
+        private Dictionary<KeyCode, KeyboardButton> _dictButtons;
+        
+        //  -----
 
         private void Awake()
         {
+            _dictButtons = new();
             _buttons = new();
+        }
+
+        public KeyboardButton GetButton(KeyCode key)
+        {
+            return _dictButtons[key];
+        }
+
+        public bool TryGetButton(KeyCode key, out KeyboardButton button)
+        {
+            return _dictButtons.TryGetValue(key, out button);
         }
 
         private void Start()
@@ -91,6 +106,7 @@ namespace VirtualKeyboard
             
             var button = objButton.GetComponent<KeyboardButton>();
             _buttons.Add(button);
+            _dictButtons.Add(layoutButton.Key, button);
 
             var prefabKeyName = prefab.GetComponentInChildren<TMP_Text>();
             

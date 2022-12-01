@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
@@ -13,6 +13,33 @@ namespace WordGridSystem
         Dark,
     }
 
+    public struct NodeData : IComparer<NodeData>
+    {
+        public char Character;
+        public NodeStatus Status;
+
+        public NodeData(char character, NodeStatus status)
+        {
+            Character = character;
+            Status = status;
+        }
+
+        public bool Equals(NodeData other)
+        {
+            return Character == other.Character && Status == other.Status;
+        }
+
+        public override int GetHashCode()
+        {
+            return Character.GetHashCode();
+        }
+
+        public int Compare(NodeData x, NodeData y)
+        {
+            return x.Status.CompareTo(y.Character);
+        }
+    }
+
     public class WordGrid : MonoBehaviour
     {
         private static readonly int MaxRows = 5;
@@ -20,7 +47,7 @@ namespace WordGridSystem
 
         public bool IsSolved;
         public string CurrentWord => _currentWord;
-        public bool ReachedEnd => _currentColumnIndex >= MaxRows;
+        public bool ReachedEnd => _currentRowIndex >= MaxRows;
 
         private Row CurrentRow => _rows[_currentRowIndex];
         private WordNode CurrentNode => CurrentRow[_currentColumnIndex];
@@ -34,8 +61,13 @@ namespace WordGridSystem
         private int _currentColumnIndex;
         private string _currentWord;
 
+        private DistinctList<NodeData> _guessedWords;
+
+        public List<NodeData> GuessedCharacters => _guessedWords.Items;
+
         private void Awake()
         {
+            _guessedWords = new();
             _rows = new Row[MaxRows];
 
             var tf = transform;
@@ -85,6 +117,8 @@ namespace WordGridSystem
             IsSolved = false;
             _currentRowIndex = 0;
             _currentColumnIndex = 0;
+            
+            _guessedWords.Clear();
             
             SetRandomWord();
 
@@ -148,19 +182,24 @@ namespace WordGridSystem
 
                 var character = char.ToLower(node.Character);
 
+                NodeStatus status = NodeStatus.Dark;
+                
                 if(IsCharacterCorrect(i, character))
                 {
-                    node.SetStatus(NodeStatus.Green);
+                    status = NodeStatus.Green;
                     correctCharacterCount++;
                 }
                 else if(IsCharacterInWord(character))
                 {
-                    node.SetStatus(NodeStatus.Yellow);
+                    status = NodeStatus.Yellow;
                 }
-                else
-                {
-                    node.SetStatus(NodeStatus.Dark);
-                }
+               
+                node.SetStatus(status);
+
+                var nodeData = new NodeData(character, status);
+                
+                _guessedWords.Add(nodeData);
+
             }
 
             IsSolved = correctCharacterCount >= MaxColumns;

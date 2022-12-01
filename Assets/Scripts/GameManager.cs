@@ -63,7 +63,17 @@ public class GameManager : MonoBehaviour
         _gamePanelObj.SetActive(true);
         _endPanelObj.SetActive(false);
         
-        _wordGrid.NextRound();
+        ResetKeyboardButtonColors();
         
+        _wordGrid.NextRound();
     }
+
+    private void ResetKeyboardButtonColors()
+    {
+        for(int i = 0; i < _keyboard.Buttons.Count; i++)
+        {
+            _keyboard.Buttons[i].SetStatus(NodeStatus.None);
+        }
+    }
+    
 }

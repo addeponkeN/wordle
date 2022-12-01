@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
+using WordGridSystem;
 
 namespace VirtualKeyboard
 {
@@ -30,6 +32,11 @@ namespace VirtualKeyboard
         {
             Key = key;
             _text.text = string.IsNullOrEmpty(keyName) ? ToString() : keyName;
+        }
+
+        public void SetStatus(NodeStatus status)
+        {
+            _button.image.color = StatusHelper.GetStatusColor(status);
         }
         
         public override string ToString()

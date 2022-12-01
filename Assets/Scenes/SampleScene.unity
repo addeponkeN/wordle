@@ -1190,7 +1190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -148, y: 252}
+  m_AnchoredPosition: {x: -129, y: 222}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1365196748
@@ -1207,7 +1207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsSolved: 0
   _prefabWordNode: {fileID: 8297789735326704642, guid: 3a283f07bd69c3f40b3c9ee6e4a0842c, type: 3}
-  _spacing: 4
+  _spacing: 1
 --- !u!1 &1573537710
 GameObject:
   m_ObjectHideFlags: 0
