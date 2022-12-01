@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using Util;
 using VirtualKeyboard;
 using WordGridSystem;
 
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _inputHandler = new WordGridInputHandler(_wordGrid, _keyboard);
-        _wordGrid.SetWords(LoadWords());
+        _wordGrid.SetWords(GeneratedWords.Items);
         _keyboard.ButtonClickedEvent.AddListener(Keyboard_OnButtonClickedEvent);
     }
 
@@ -25,25 +26,16 @@ public class GameManager : MonoBehaviour
         Begin();
     }
 
-    private string[] LoadWords()
-    {
-        const string wordsPath = "Resources/words.txt";
-        var path = Path.Combine(Application.dataPath, wordsPath);
-        return File.ReadAllLines(path);
-    }
-
     private void Keyboard_OnButtonClickedEvent(KeyboardButton bt)
     {
-        Debug.Log($"clicked button: {bt.Key}");
         _inputHandler.HandleInput(bt.Key);
 
         bool isRoundEnded = _wordGrid.IsSolved || _wordGrid.ReachedEnd;
-        
+
         if(isRoundEnded)
         {
             EndRound();
         }
-        
     }
 
     private void EndRound()
@@ -54,7 +46,7 @@ public class GameManager : MonoBehaviour
         var endPanel = _endPanelObj.GetComponent<EndPanel>();
 
         bool isVictory = _wordGrid.IsSolved;
-        
+
         endPanel.SetVictory(isVictory, _wordGrid.CurrentWord);
     }
 
@@ -62,9 +54,9 @@ public class GameManager : MonoBehaviour
     {
         _gamePanelObj.SetActive(true);
         _endPanelObj.SetActive(false);
-        
+
         ResetKeyboardButtonColors();
-        
+
         _wordGrid.NextRound();
     }
 
@@ -75,5 +67,4 @@ public class GameManager : MonoBehaviour
             _keyboard.Buttons[i].SetStatus(NodeStatus.None);
         }
     }
-    
 }
